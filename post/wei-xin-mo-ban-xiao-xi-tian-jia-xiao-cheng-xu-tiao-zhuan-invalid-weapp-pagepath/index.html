@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>微信模板消息添加小程序跳转 invalid weapp pagepath | Gridea</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://GouFuGui.coding.me/Gridea/favicon.ico?v=1562401837690">
+<link rel="stylesheet" href="https://GouFuGui.coding.me/Gridea/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://GouFuGui.coding.me/Gridea">
+        <img src="https://GouFuGui.coding.me/Gridea/images/avatar.png?v=1562401837690" class="site-logo">
+        <h1 class="site-title">Gridea</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">微信模板消息添加小程序跳转 invalid weapp pagepath</h2>
+            <div class="post-date">2019-07-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://GouFuGui.coding.me/Gridea/post-images/wei-xin-mo-ban-xiao-xi-tian-jia-xiao-cheng-xu-tiao-zhuan-invalid-weapp-pagepath.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>先上个官方文档  <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1433751277">发送模板消息</a></p>
+<h1 id="发送模板消息"><strong>发送模板消息</strong></h1>
+<p>接口调用请求说明</p>
+<pre><code>http请求方式: POST
+https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN
+</code></pre>
+<p>POST数据说明</p>
+<p>POST数据示例如下：</p>
+<pre><code>{
+           &quot;touser&quot;:&quot;OPENID&quot;,
+           &quot;template_id&quot;:&quot;ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY&quot;,
+           &quot;url&quot;:&quot;http://weixin.qq.com/download&quot;,  
+           &quot;miniprogram&quot;:{
+             &quot;appid&quot;:&quot;xiaochengxuappid12345&quot;,
+             &quot;pagepath&quot;:&quot;index?foo=bar&quot;
+           },          
+           &quot;data&quot;:{
+                   &quot;first&quot;: {
+                       &quot;value&quot;:&quot;恭喜你购买成功！&quot;,
+                       &quot;color&quot;:&quot;#173177&quot;
+                   },
+                   &quot;keyword1&quot;:{
+                       &quot;value&quot;:&quot;巧克力&quot;,
+                       &quot;color&quot;:&quot;#173177&quot;
+                   },
+                   &quot;keyword2&quot;: {
+                       &quot;value&quot;:&quot;39.8元&quot;,
+                       &quot;color&quot;:&quot;#173177&quot;
+                   },
+                   &quot;keyword3&quot;: {
+                       &quot;value&quot;:&quot;2014年9月22日&quot;,
+                       &quot;color&quot;:&quot;#173177&quot;
+                   },
+                   &quot;remark&quot;:{
+                       &quot;value&quot;:&quot;欢迎再次购买！&quot;,
+                       &quot;color&quot;:&quot;#173177&quot;
+                   }
+           }
+       }
+</code></pre>
+<p>参数说明
+<img src="https://GouFuGui.coding.me/Gridea/post-images/1562400654999.png" alt="参数说明"></p>
+<p>如图所得：<br>
+官方文档给出的所需跳转到小程序的具体页面路径变量是pagepath。但是你是不是多次尝试多种路径写法都会报错invalid weapp pagepath。这时把pagepath换成path即可。但是情况也不尽然，这只是其中一种情况的解决办法，还需各位同僚结合自己的实际情况哦！</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://GouFuGui.coding.me/Gridea/tag/5dg_g5qdR" class="tag">
+                    wechat
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://GouFuGui.coding.me/Gridea/post/wei-xin-xiao-cheng-xu-invalid-code-cuo-wu">
+                  <h3 class="post-title">
+                    微信小程序 invalid code 错误
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

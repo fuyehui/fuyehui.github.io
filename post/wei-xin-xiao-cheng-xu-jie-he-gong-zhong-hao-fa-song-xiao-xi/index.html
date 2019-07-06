@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>标签列表 | Gridea</title>
+<title>微信小程序结合公众号发送消息 | Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -90,14 +90,48 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
+          <div class="post-detail">
+            <h2 class="post-title">微信小程序结合公众号发送消息</h2>
+            <div class="post-date">2019-07-06</div>
             
-              <a class="tag" href="https://GouFuGui.coding.me/Gridea/tag/5dg_g5qdR">wechat</a>
+              <div class="feature-container" style="background-image: url('https://GouFuGui.coding.me/Gridea/post-images/wei-xin-xiao-cheng-xu-jie-he-gong-zhong-hao-fa-song-xiao-xi.jpg')">
+              </div>
             
-              <a class="tag" href="https://GouFuGui.coding.me/Gridea/tag/gridea">Gridea</a>
+            <div class="post-content">
+              <p>之前做约课小程序的时候需要向微信用户推送课程发布等信息，但当时并没有做强制关注公众号，所以使用了微信小程序的消息推送。但是小程序发送模板消息局限性太大了，例如：
+　　1.发送消息需要使用用户提交表单的formId。<br>
+　　2.一个formId只能使用一次。<br>
+　　3.formId的有效时长是7天。这就要求如果客户在使用的时候收集大量的formId，对于主动向微信用户推送消息来说一点都不友好。所以这次选择打通小程序和公众号，通过公众号来发送模板消息</p>
+<p>Ｑ：如何在小程序中获取公众号openid??</p>
+<p>A：网上得来的答案：首先在小程序中通过web-view组件打开公众号网页授权页面  <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140842">微信网页授权</a><br>
+　　其次通过微信公众号的静默授权方式进行授权，用户无感知的获取到用户的公众号openid。根据openid和access_token换取该用户的详细信息，其中包括unionid等信息。与数据库中小程序登录时入库信息比较，修改对应用户的微信公众号openid信息。接下来就可以愉快的发送信息了。</p>
+<pre><code>　　苦逼加班狗于一个加班的周六下午所写，第一次还未保存，怎一个惨字了得！</code></pre>
+
+            </div>
             
+              <div class="tag-container">
+                
+                  <a href="https://GouFuGui.coding.me/Gridea/tag/5dg_g5qdR" class="tag">
+                    wechat
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://GouFuGui.coding.me/Gridea/post/wei-xin-mo-ban-xiao-xi-tian-jia-xiao-cheng-xu-tiao-zhuan-invalid-weapp-pagepath">
+                  <h3 class="post-title">
+                    微信模板消息添加小程序跳转 invalid weapp pagepath
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
           </div>
+
         </div>
       </div>
     </div>

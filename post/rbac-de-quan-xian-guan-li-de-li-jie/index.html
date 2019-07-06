@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>RBAC的权限管理的理解 | Gridea</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://GouFuGui.coding.me/Gridea/favicon.ico?v=1562401837690">
+<link rel="stylesheet" href="https://GouFuGui.coding.me/Gridea/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://GouFuGui.coding.me/Gridea">
+        <img src="https://GouFuGui.coding.me/Gridea/images/avatar.png?v=1562401837690" class="site-logo">
+        <h1 class="site-title">Gridea</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">RBAC的权限管理的理解</h2>
+            <div class="post-date">2019-06-05</div>
+            
+            <div class="post-content">
+              <p>RBAC是权限与角色相关联，不同角色可分配不同权限。简化了权限与角色的关系，具有易扩展，易维护的特点。
+<img src="https://GouFuGui.coding.me/Gridea/post-images/1559728706939.png" alt="">
+<img src="https://GouFuGui.coding.me/Gridea/post-images/1559728713080.png" alt="">
+<img src="https://GouFuGui.coding.me/Gridea/post-images/1559728625662.png" alt=""></p>
+<pre><code>CREATE TABLE `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT, 
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '姓名',
+  `email` varchar(30) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是超级管理员 1表示是 0 表示不是',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态 1：有效 0：无效',
+  `updated_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后一次更新时间',
+  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '插入时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_email` (`email`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+CREATE TABLE `role` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '角色名称',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态 1：有效 0：无效',
+  `updated_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后一次更新时间',
+  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '插入时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+
+CREATE TABLE `user_role` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
+  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '插入时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+
+CREATE TABLE `access` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '权限名称',
+  `urls` varchar(1000) NOT NULL DEFAULT '' COMMENT 'json 数组',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态 1：有效 0：无效',
+  `updated_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后一次更新时间',
+  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '插入时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限详情表';
+
+CREATE TABLE `role_access` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id',
+  `access_id` int(11) NOT NULL DEFAULT '0' COMMENT '权限id',
+  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '插入时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_role_id` (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+
+CREATE TABLE `app_access_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` bigint(20) NOT NULL DEFAULT '0' COMMENT '品牌UID',
+  `target_url` varchar(255) NOT NULL DEFAULT '' COMMENT '访问的url',
+  `query_params` longtext NOT NULL COMMENT 'get和post参数',
+  `ua` varchar(255) NOT NULL DEFAULT '' COMMENT '访问ua',
+  `ip` varchar(32) NOT NULL DEFAULT '' COMMENT '访问ip',
+  `note` varchar(1000) NOT NULL DEFAULT '' COMMENT 'json格式备注字段',
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户操作记录表';
+
+
+INSERT INTO `user` (`id`, `name`, `email`, `is_admin`, `status`, `updated_time`, `created_time`)
+VALUES(1, '超级管理员', 'apanly@163.com', 1, 1, '2016-11-15 13:36:30', '2016-11-15 13:36:30');
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://GouFuGui.coding.me/Gridea/post/php-mian-xiang-dui-xiang">
+                  <h3 class="post-title">
+                    php 面向对象
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

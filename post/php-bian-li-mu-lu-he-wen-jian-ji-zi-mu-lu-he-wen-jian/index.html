@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>标签列表 | Gridea</title>
+<title>PHP遍历目录和文件及子目录和文件 | Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -90,14 +90,59 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
+          <div class="post-detail">
+            <h2 class="post-title">PHP遍历目录和文件及子目录和文件</h2>
+            <div class="post-date">2019-06-05</div>
             
-              <a class="tag" href="https://GouFuGui.coding.me/Gridea/tag/5dg_g5qdR">wechat</a>
+            <div class="post-content">
+              <p>正常直接使用opendir方法，就可以读到所有的目录和文件<br>
+文件可以直接记录下来，目录则需要再进一步获取里边的文件信息<br>
+也就是，如果当前读出来是目录，则需要再次调用函数本身（递归），直到没有目录<br>
+循环最后是读到没有文件（目录也是文件）结束</p>
+<pre><code>&lt;?php
+// 列出指定目录下所有目录和文件
+function listDirFiles($dir)
+{
+    $arr = [];
+    if (is_dir($dir)) {//如果是目录，则进行下一步操作
+        $d = opendir($dir);//打开目录
+        if ($d) {//目录打开正常
+            while (($file = readdir($d)) !== false) {//循环读出目录下的文件，直到读不到为止
+                if  ($file != '.' &amp;&amp; $file != '..') {//排除一个点和两个点
+                    if (is_dir($file)) {//如果当前是目录
+                        $arr[$file] = listDirFiles($file);//进一步获取该目录里的文件
+                    } else {
+                        $arr[] = $file;//记录文件名
+                    }
+                }
+            }
+        }
+        closedir($d);//关闭句柄
+    }
+    return $arr;
+}
+
+
+print_r(listDirFiles('go'));
+</code></pre>
+
+            </div>
             
-              <a class="tag" href="https://GouFuGui.coding.me/Gridea/tag/gridea">Gridea</a>
             
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://GouFuGui.coding.me/Gridea/post/rbac-de-quan-xian-guan-li-de-li-jie">
+                  <h3 class="post-title">
+                    RBAC的权限管理的理解
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
           </div>
+
         </div>
       </div>
     </div>
